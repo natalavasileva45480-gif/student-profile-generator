@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Конструктор характеристики ученика</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 20px;
+    color: #2c3e50;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    color: #1a365d;
+    margin-bottom: 30px;
+  }
+  .block {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 5px solid #3b82f6;
+  }
+  .block h2 {
+    margin: 0 0 15px;
+    color: #1e40af;
+    font-size: 18px;
+  }
+  .field {
+    margin-bottom: 15px;
+  }
+  .field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #334155;
+  }
+  select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+  }
+  select:focus { outline: 2px solid #3b82f6; border-color: #3b82f6; }
+
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+  }
+  .checkbox-group label:hover { background: #e0e7ff; }
+  .checkbox-group input[type="checkbox"] { cursor: pointer; }
+  .hint {
+    font-size: 12px;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  .extra-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  .extra-fields input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 25px 0;
+  }
+  button {
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-primary { background: #3b82f6; color: #fff; }
+  .btn-primary:hover { background: #2563eb; }
+  .btn-secondary { background: #e2e8f0; color: #334155; }
+  .btn-secondary:hover { background: #cbd5e1; }
+
+  .result {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: none;
+  }
+  .result h2 { color: #1e40af; margin-top: 0; }
+  textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: 'Times New Roman', serif;
+    resize: vertical;
+  }
+
+  @media (max-width: 600px) {
+    .extra-fields { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Конструктор характеристики ученика</h1>
+
+  <!-- Дополнительные поля -->
+  <div class="block">
+    <h2>👤 Данные ученика</h2>
+    <div class="extra-fields">
+      <div class="field">
+        <label>Ф.И.О. ученика</label>
+        <input type="text" id="fio" placeholder="Иванов Иван Иванович">
+      </div>
+      <div class="field">
+        <label>Дата рождения</label>
+        <input type="text" id="dob" placeholder="01.01.2012">
+      </div>
+      <div class="field">
+        <label>Класс</label>
+        <input type="text" id="klass" placeholder="5 «А»">
+      </div>
+      <div class="field">
+        <label>Школа</label>
+        <input type="text" id="school" placeholder="МБОУ СОШ № 1">
+      </div>
+    </div>
+  </div>
+
+  <!-- БЛОК 1 -->
+  <div class="block">
+    <h2>Блок 1. Базовые анкетные данные</h2>
+    <div class="field">
+      <label>1.1. Пол ученика</label>
+      <select id="gender">
+        <option value="m">Мужской</option>
+        <option value="f">Женский</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>1.2. Ступень обучения</label>
+      <select id="level">
+        <option value="primary">Начальные классы (1–4)</option>
+        <option value="middle" selected>Среднее звено (5–9)</option>
+        <option value="senior">Старшие классы (10–11)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>1.3. Цель составления характеристики</label>
+      <select id="purpose">
+        <option value="general">По месту требования (универсальная)</option>
+        <option value="pmpk">Для ПМПК</option>
+        <option value="opeka">В органы опеки / КДН / ПДН</option>
+        <option value="voenkomat">В военкомат</option>
+        <option value="transfer">Для перевода в другую школу / лицей</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- БЛОК 2 -->
+  <div class="block">
+    <h2>Блок 2. Учебно-познавательная деятельность</h2>
+    <div class="field">
+      <label>2.1. Уровень успеваемости</label>
+      <select id="performance">
+        <option value="high">Высокий (учится на «отлично», отличник)</option>
+        <option value="above" selected>Выше среднего (учится на «4» и «5», хорошист)</option>
+        <option value="medium">Средний (учится в основном на «3» и «4»)</option>
+        <option value="low">Низкий (имеет академические задолженности, «2» и «3»)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>2.2. Отношение к учебе и мотивация</label>
+      <select id="motivation">
+        <option value="high">Высокая учебная мотивация, выраженный познавательный интерес</option>
+        <option value="duty" selected>Учится в силу чувства долга и ответственности</option>
+        <option value="situative">Мотивация ситуативная (учится под контролем взрослых)</option>
+        <option value="weak">Учебная мотивация развита слабо, к урокам равнодушен</option>
+        <option value="refusal">Демонстративно отказывается от учебы, прогуливает уроки</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>2.3. Особенности внимания и памяти</label>
+      <select id="attention">
+        <option value="good">Внимание устойчивое, память отличная, быстро усваивает материал</option>
+        <option value="distracted" selected>Внимание рассеянное, требуется повторение инструкций</option>
+        <option value="low">Низкая концентрация, быстро утомляется, истощаем</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>2.4. Мышление и речь</label>
+      <select id="thinking">
+        <option value="developed">Развитое логическое мышление, богатый словарный запас</option>
+        <option value="normal" selected>Мышление конкретное, устная речь развита в пределах возрастной нормы</option>
+        <option value="weak">Трудности с формулированием мыслей, слабый словарный запас</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- БЛОК 3 -->
+  <div class="block">
+    <h2>Блок 3. Поведение и дисциплина</h2>
+    <div class="field">
+      <label>3.1. Соблюдение школьных правил</label>
+      <select id="discipline">
+        <option value="good">Дисциплинирован, правила школы не нарушает</option>
+        <option value="normal" selected>Поведение адекватное, но иногда отвлекается на уроках</option>
+        <option value="impulsive">Импульсивен, часто нарушает дисциплину на уроках и переменах</option>
+        <option value="bad">Демонстративно нарушает школьный устав, не реагирует на замечания</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>3.2. Реакция на критику и замечания учителей</label>
+      <select id="criticism">
+        <option value="adequate" selected>Адекватная (исправляет поведение, соглашается)</option>
+        <option value="sensitive">Обидчивая / ранимая (замыкается в себе, плачет)</option>
+        <option value="aggressive">Агрессивная / протестная (грубит, спорит, уходит из класса)</option>
+        <option value="indifferent">Равнодушная (игнорирует замечания)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- БЛОК 4 -->
+  <div class="block">
+    <h2>Блок 4. Социально-психологические особенности</h2>
+    <div class="field">
+      <label>4.1. Статус в классном коллективе</label>
+      <select id="status">
+        <option value="leader">Лидер, пользуется авторитетом, имеет много друзей</option>
+        <option value="friendly" selected>Дружелюбный, легко находит общий язык со всеми, принят классом</option>
+        <option value="isolated">Держится обособленно, общается только с 1–2 учениками</option>
+        <option value="rejected">Отвергаемый классом, часто вступает в конфликты</option>
+        <option value="follower">Является ведомым, легко поддается чужому (в т.ч. негативному) влиянию</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>4.2. Характер и преобладающие черты личности</label>
+      <div class="checkbox-group" id="traits">
+        <label><input type="checkbox" value="Спокойный, уравновешенный, доброжелательный"> Спокойный, уравновешенный, доброжелательный</label>
+        <label><input type="checkbox" value="Отзывчивый, скромный, исполнительный" checked> Отзывчивый, скромный, исполнительный</label>
+        <label><input type="checkbox" value="Эмоциональный, гиперактивный, общительный"> Эмоциональный, гиперактивный, общительный</label>
+        <label><input type="checkbox" value="Замкнутый, неуверенный в себе, тревожный"> Замкнутый, неуверенный в себе, тревожный</label>
+        <label><input type="checkbox" value="Вспыльчивый, упрямый, конфликтный, эгоцентричный"> Вспыльчивый, упрямый, конфликтный, эгоцентричный</label>
+      </div>
+      <div class="hint">Можно выбрать до 3 вариантов</div>
+    </div>
+    <div class="field">
+      <label>4.3. Внеурочная деятельность и увлечения</label>
+      <select id="extracurr">
+        <option value="active">Активно участвует в жизни класса и школы, посещает кружки/секции</option>
+        <option value="normal" selected>Поручения выполняет, но инициативы не проявляет</option>
+        <option value="passive">Пассивен, уклоняется от общественной жизни и внеурочных мероприятий</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- БЛОК 5 -->
+  <div class="block">
+    <h2>Блок 5. Семья и условия воспитания</h2>
+    <div class="field">
+      <label>5.1. Тип семьи и атмосфера</label>
+      <select id="family">
+        <option value="good_full" selected>Благополучная, полная, атмосфера доверительная</option>
+        <option value="good_single">Благополучная, неполная (воспитывает один родитель/опекун)</option>
+        <option value="large">Многодетная, благополучная</option>
+        <option value="divorce">Семья в разводе, конфликтные отношения между родителями</option>
+        <option value="bad">Неблагополучная, семья находится в социально опасном положении (СОП)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>5.2. Контроль со стороны родителей</label>
+      <select id="control">
+        <option value="good" selected>Родители уделяют должное внимание воспитанию, сотрудничают со школой</option>
+        <option value="enough">Контроль достаточный, но на контакт идут неохотно</option>
+        <option value="overprotection">Гиперопека (чрезмерный контроль, завышенные требования)</option>
+        <option value="weak">Контроль ослаблен (родители заняты работой, ребенок предоставлен себе)</option>
+        <option value="none">Родители не занимаются воспитанием, родительские собрания игнорируют</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="generate()">📄 Сформировать характеристику</button>
+    <button class="btn-secondary" onclick="resetForm()">🔄 Сбросить</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>Готовая характеристика</h2>
+    <textarea id="output" readonly></textarea>
+    <div class="actions">
+      <button class="btn-primary" onclick="copyText()">📋 Скопировать</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Ограничение на выбор до 3 черт характера
+document.querySelectorAll('#traits input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const checked = document.querySelectorAll('#traits input:checked').length;
+    if (checked > 3) {
+      cb.checked = false;
+      alert('Можно выбрать не более 3 черт характера.');
+    }
+  });
+});
+
+function val(id) { return document.getElementById(id).value; }
+function text(id) { return document.getElementById(id).options[document.getElementById(id).selectedIndex].text; }
+
+function generate() {
+  const g = val('gender');
+  const fio = document.getElementById('fio').value.trim() || '_______________';
+  const dob = document.getElementById('dob').value.trim() || '____.____.________';
+  const klass = document.getElementById('klass').value.trim() || '___';
+  const school = document.getElementById('school').value.trim() || '_______________';
+
+  // Родовые формы
+  const w = {
+    m: { uch: 'обучающийся', on: 'он', usp: 'успевал', byl: 'был', pokazal: 'показал',
+         otz: 'отзывчивый', um: 'умен', rabota: 'работал', posesh: 'посещает' },
+    f: { uch: 'обучающаяся', on: 'она', usp: 'успевала', byl: 'была', pokazal: 'показала',
+         otz: 'отзывчивая', um: 'умна', rabota: 'работала', posesh: 'посещает' }
+  }[g];
+
+  const level = val('level');
+  const levelText = { primary: 'начального общего образования', middle: 'основного общего образования', senior: 'среднего общего образования' }[level];
+
+  const purpose = val('purpose');
+  const purposeText = {
+    general: 'по месту требования',
+    pmpk: 'для предоставления в психолого-медико-педагогическую комиссию (ПМПК)',
+    opeka: 'для предоставления в органы опеки и попечительства / КДН и ЗП / ПДН',
+    voenkomat: 'для предоставления в военный комиссариат',
+    transfer: 'для перевода в другое образовательное учреждение'
+  }[purpose];
+
+  // Характер
+  const traits = Array.from(document.querySelectorAll('#traits input:checked')).map(c => c.value);
+  const traitsStr = traits.length ? traits.join('; ').toLowerCase() : 'не выявлены';
+
+  const out =
+`ХАРАКТЕРИСТИКА
+
+на ${fio}, ${w.uch}${level === 'primary' ? 'ся' : 'ся'} ${klass} класса ${levelText}
+${school}, ${dob} года рождения.
+
+Характеристика составлена ${purposeText}.
+
+1. Учебно-познавательная деятельность.
+${w.uch[0].toUpperCase() + w.uch.slice(1)} ${klass} класса ${text('performance').toLowerCase()}. ${w.usp[0].toUpperCase() + w.usp.slice(1)} ${text('motivation').toLowerCase()}. ${text('attention')}. ${text('thinking')}.
+
+2. Поведение и дисциплина.
+${text('discipline')}. На замечания педагогов ${text('criticism').toLowerCase()}.
+
+3. Социально-психологические особенности.
+В классе ${text('status').toLowerCase()}. По характеру — ${traitsStr}. ${text('extracurr').toLowerCase()}.
+
+4. Семья и условия воспитания.
+${text('family')}. ${text('control')}.
+
+Характеристика выдана для предъявления ${purposeText}.
+
+
+Классный руководитель: _______________ / _______________ /
+
+Директор школы: _______________ / _______________ /
+
+«___» ____________ 20___ г.`;
+
+  document.getElementById('output').value = out;
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyText() {
+  const ta = document.getElementById('output');
+  ta.select();
+  document.execCommand('copy');
+  alert('Текст скопирован в буфер обмена.');
+}
+
+function resetForm() {
+  if (confirm('Сбросить все выбранные значения?')) {
+    document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+    document.querySelectorAll('#traits input').forEach(c => c.checked = false);
+    document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+    document.getElementById('result').style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
